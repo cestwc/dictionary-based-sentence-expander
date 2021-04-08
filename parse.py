@@ -1,5 +1,6 @@
 import re
 import os
+import json
 import pickle
 
 import nltk
@@ -56,3 +57,26 @@ def parseWnGlosses(path = '.', redo = False):
 		
 	return tokenized_glosses
 		
+
+def parseSentences(corpus, path = '.', redo = False):
+	
+	directory = os.path.join(path, 'tokenized_sentences.spacy')
+	
+	if redo or not os.path.exists(directory):
+		doc_bin_all = DocBin()
+		seg = 5000 # just an arbitrary number that saves memory
+		for i in range(len(corpus)//seg + 1):
+			doc_bin = DocBin()
+			for j in range(i*seg, min((i+1)*seg, len(corpus))):
+				doc = nlp(corpus[j])
+				doc_bin.add(doc)
+			doc_bin.to_disk(path + 'tokenized_sentences' + str(i) + '.spacy')
+		for i in range(len(corpus)//seg + 1):
+			doc_bin = DocBin().from_disk(path + 'tokenized_sentences' + str(i) + '.spacy')
+			doc_bin_all.merge(doc_bin)
+		doc_bin_all.to_disk(directory)
+		
+	else:
+		doc_bin_all = DocBin().from_disk(directory)
+		
+	return doc_bin_all.get_docs(nlp.vocab)
