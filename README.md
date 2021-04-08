@@ -34,5 +34,8 @@ We noticed that majority or words are nouns and verbs, and we do see a pattern a
 
 In practice, we need to preparse the glosses and store them as a separate file, as we will still be using them when expanding the sentences. There are some small tricks done, to avoid taking too much memory (you can't have a very big SpaCy [DocBin](https://spacy.io/api/docbin#_title)). We do similar tricks to the sentences in the corpus we are expanding. Though we can process one sentence after another, preprocessing them together saves a lot of time.
 
+### Make the contains modifiable
+Now we have tokenized out glosses and sentences, and both are in SpaCy ```Doc``` format, a container of ```Token``` instances. This format, however, is not modifiable. So we need a helper class ```Node```, and a list of ```Node```s, in order to modify our sentences.
+
 ### Word selection
-Now that we have both tokenized (parsed) glosses and one (or more) tokenized sentence(s), we need to pick a word and replace it with its definition.
+Now that we have both tokenized (parsed) glosses and one (or more) tokenized sentence(s), we need to pick a word and replace it with its definition. There are two main categories that we want to avoid replacing. One is the most common words, like 'old', and the other is collocations and compounds.
