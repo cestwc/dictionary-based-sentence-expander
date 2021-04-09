@@ -26,10 +26,10 @@ class ExpandedSent:
 		random.seed(42)
 		self.joint = random.choice(candidates)
 		pos = self.joint.attr['pos']
-		syn = wsd(self.rootstock.linear(), '_'.join(self.joint.attr['text'].split()), posAsInNLTK(pos))
-		if not isSynset(syn):
+		syns = wsd(self.rootstock.linear(), '_'.join(self.joint.attr['text'].split()), posAsInNLTK(pos))
+		if syns == []:
 			return None
-		self.syn = syn
+		self.syn = syns[0]
 		scion = doc2root(tokenized_glosses[self.syn.name()])
 		if scion.attr['pos'] not in acceptedRootPOS(pos):
 			return None
