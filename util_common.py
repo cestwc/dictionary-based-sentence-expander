@@ -4,11 +4,11 @@
 import csv
 from itertools import chain
 
-def commonWords():
+def commonWords(lexical = None):
 	
 	commonWords = {}
 	with open('common.csv','r') as f: 
 		for line in csv.reader(f): 
 			commonWords[line[0]] = [w for w in line[1:] if w != '']
 			
-	return list(chain(*[v for v in commonWords().values()]))
+	return commonWords[lexical] if lexical != None else list(chain(*[v for v in commonWords.values()]))
