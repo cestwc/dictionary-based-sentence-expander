@@ -4,6 +4,7 @@ import random
 from replicator import doc2root, doc2linear
 from util_lexical import conditionsAvailToReplace, posAsInNLTK, acceptedRootPOS
 from util_common import commonWords
+from util_wsd_wn import wsd
 
 class ExpandedSent:
 	
