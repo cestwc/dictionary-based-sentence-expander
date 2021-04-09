@@ -1,3 +1,5 @@
+from itertools import chain
+
 from pyinflect import getInflection
 
 from util_phrase import isPhrase
