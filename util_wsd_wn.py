@@ -4,15 +4,17 @@
 from nltk.wsd import lesk
 
 def wsd(listOfWords, word, pos = None):
+	
 	if pos == None:
-		return lesk(listOfWords, word)
+		syn = lesk(listOfWords, word)
+		return [syn] if isSynset(syn) else []
 	else:
-		i = 0
-		syn = None
-		while i < len(pos) and not isSynset(syn):
-			syn = lesk(listOfWords, word, pos[i])
-			i += 1
-		return syn
+		syns = []
+		for x in pos:
+			syn = lesk(listOfWords, word, x)
+			if isSynset(syn):
+				syns.append(syn)
+		return syns
 
 def isSynset(syn):
 	
