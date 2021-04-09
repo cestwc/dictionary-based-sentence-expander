@@ -120,3 +120,41 @@ print(Counter(syn_list))
 
 ## Afterword
 Expanding a sentence with rules may look like a challenging task. However, if we view it from another perspective, it may help us write sentences more concisely!
+
+
+## Appendix
+### How to get the table above?
+```python
+import pandas as pd
+
+lexical = ('a', 's', 'r', 'n', 'v')
+pos = []
+
+for x in tokenized_glosses:
+    for y in tokenized_glosses[x]:
+        if y.pos_ not in pos:
+            pos.append(y.pos_)
+
+df = pd.DataFrame(index=pos, columns=lexical)
+df = df.fillna(0)
+
+for synset in wordnet.all_synsets():
+    name = synset.name()
+    tokens = tokenized_glosses[name]
+    rootPOS = [token.pos_ for token in tokens if token.dep_ == 'ROOT']    
+    df[synset.pos()][rootPOS] += 1
+```
+
+```python
+category = {'n': ['NOUN', 'VERB', 'PROPN', 'ADJ'], 'v': ['VERB'], 'a': ['VERB', 'ADP'], 's':['VERB', 'ADJ'], 'r': ['ADP']}
+mapping = dict((y, []) for y in [k + ' -> ' + x for k in category.keys() for x in category[k]])
+
+for synset in wordnet.all_synsets():
+    name = synset.name()
+    tokens = tokenized_glosses[name]
+    rootPOS = [token.pos_ for token in tokens if token.dep_ == 'ROOT' and token.pos_ in category[synset.pos()]]
+    for x in rootPOS:
+        mapping[synset.pos() + ' -> ' + x].append(name)
+
+mappingDf = pd.DataFrame({key:pd.Series(value) for key, value in mapping.items()}).fillna(' ')
+```
