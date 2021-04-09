@@ -3,7 +3,7 @@ import random
 
 from spacy import displacy
 
-from replicator import doc2root, doc2linear
+from replicator import doc2root, doc2linear, phraseTokenize
 from util_lexical import conditionsAvailToReplace, posAsInNLTK, acceptedRootPOS
 from util_common import commonWords
 from util_wsd_wn import wsd
