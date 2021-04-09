@@ -58,7 +58,7 @@ def parseWnGlosses(path = '.', redo = False):
 	return tokenized_glosses
 		
 
-def parseSentences(corpus, path = '.', redo = False):
+def parseCorpus(corpus, path = '.', redo = False):
 	
 	directory = os.path.join(path, 'tokenized_sentences.spacy')
 	
