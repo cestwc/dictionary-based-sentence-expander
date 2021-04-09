@@ -2,7 +2,6 @@ import copy
 import random
 
 from replicator import doc2root, doc2linear
-from node import Node
 
 class ExpandedSent:
 	
