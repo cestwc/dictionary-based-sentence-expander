@@ -19,6 +19,20 @@ class ExpandedSent:
 		self.joint = None
 		self.syn = None # a specific sense in nltk.corpus wordnet Synset object
 		self.gemels = None # from the Latin word meaning "a pair"
+		
+	# graft more words one by one
+	def moreGraft(self, tokenized_glosses, times = 5):
+		# times = random.randint(1, 4)
+		for i in range(times):
+			if self.gemels != None:
+				self.scion = None
+				self.joint = None
+				self.syn = None
+				self.rootstock = self.gemels
+				self.gemels = None
+				self.graft(tokenized_glosses)
+		self.rootstock = doc2root(self.doc)
+		return None
 
 	# general (with selection on lexical categories)
 	def graft(self, tokenized_glosses, lexical = None):
