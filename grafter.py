@@ -1,5 +1,7 @@
 import copy
 import random
+
+from replicator import doc2root, doc2linear
 class ExpandedSent:
 	
 	def __init__(self, sentence, nlp):
