@@ -38,7 +38,7 @@ def phraseTokenize(doc):
 	i = 0
 	while i < len(doc):
 		n = min(5, len(doc)-i)
-		while isAKnownPhase(doc[i:i+n].lemma_.split(), wnLemmas) == 0 and n >= 2:
+		while isPhrase(doc[i:i+n].lemma_.split()) == 0 and n >= 2:
 			n -= 1
 		if n >= 2:
 			spans.append(doc[i:i+n])
