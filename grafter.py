@@ -2,6 +2,7 @@ import copy
 import random
 
 from spacy import displacy
+spacy.prefer_gpu()
 
 from replicator import doc2root, doc2linear, phraseTokenize
 from util_lexical import conditionsAvailToReplace, posAsInNLTK, acceptedRootPOS
