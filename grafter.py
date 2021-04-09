@@ -1,6 +1,8 @@
 import copy
 import random
 
+from spacy import displacy
+
 from replicator import doc2root, doc2linear
 from util_lexical import conditionsAvailToReplace, posAsInNLTK, acceptedRootPOS
 from util_common import commonWords
