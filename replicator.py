@@ -24,3 +24,21 @@ def doc2linear(doc):
 			linear[i].setHead(linear[t.head.i])
 		linear[i].dominate([[linear[x.i] for x in t.lefts], [linear[x.i] for x in t.rights]])
 	return linear
+
+# merge tokens that form a collocation
+from util_phrase import isPhrase
+
+def phraseTokenize(doc):
+	spans = []
+	i = 0
+	while i < len(doc):
+	n = min(5, len(doc)-i)
+	while isPhrase(doc[i:i+n].lemma_.split()) == 0 and n >= 2:
+		n -= 1
+	if n >= 2:
+		spans.append(doc[i:i+n])
+	i += n
+	with doc.retokenize() as retokenizer:
+	for span in spans:
+		retokenizer.merge(span)
+	return doc
