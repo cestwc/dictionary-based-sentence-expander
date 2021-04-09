@@ -2,6 +2,11 @@ from itertools import chain
 
 from pyinflect import getInflection
 
+def inflect(word, target):
+	inflected = getInflection(word, target, inflect_oov=True)
+	return inflected[0] if inflected != None else word
+
+
 from util_phrase import isPhrase
 
 class Node:
@@ -154,7 +159,8 @@ class Node:
 			for c in self.children[0]:
 				if c.attr['pos'] == 'DET':
 					self.drop(c)
-			self.attr['text'] = getInflection(self.attr['text'], 'NNS', inflect_oov=True)[0]
+			# self.attr['text'] = getInflection(self.attr['text'], 'NNS', inflect_oov=True)[0]
+			self.attr['text'] = inflect(self.attr['text'], 'NNS')
 		return None
 
 	#noun
@@ -181,14 +187,18 @@ class Node:
 			text = self.attr['text'].split()
 			if morph['Tense'] == 'Pres':
 				if morph['Aspect'] == 'Prog':
-					text[0] = getInflection(text[0], 'VBG', inflect_oov=True)[0]
+					# text[0] = getInflection(text[0], 'VBG', inflect_oov=True)[0]
+					text[0] = inflect(text[0], 'VBG')
 				if morph['Number'] == 'Sing' and morph['Person'] in ('Three' or '3'):
-					text[0] = getInflection(text[0], 'VBZ', inflect_oov=True)[0]
+					# text[0] = getInflection(text[0], 'VBZ', inflect_oov=True)[0]
+					text[0] = inflect(text[0], 'VBZ')
 			elif morph['Tense'] == 'Past':
 				if morph['Aspect'] == 'Perf':
-					text[0] = getInflection(text[0], 'VBN', inflect_oov=True)[0]
+					# text[0] = getInflection(text[0], 'VBN', inflect_oov=True)[0]
+					text[0] = inflect(text[0], 'VBN')
 				else:
-					text[0] = getInflection(text[0], 'VBD', inflect_oov=True)[0]
+					# text[0] = getInflection(text[0], 'VBD', inflect_oov=True)[0]
+					text[0] = inflect(text[0], 'VBD')
 			self.attr['text'] = ' '.join(text)
 		for n in self.children[1]:
 			if n.attr['pos'] == 'VERB' and n.attr['dep'] == 'conj':
