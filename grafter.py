@@ -19,7 +19,7 @@ class ExpandedSent:
 
 	# general (with selection on lexical categories)
 	def graft(self, tokenized_glosses, lexical = None):
-		candidates = [w for w in self.rootstock.inquire(conditions[lexical]) if w.attr['lemma'] not in commonWords(lexical)]
+		candidates = [w for w in self.rootstock.inquire(conditionsAvailToReplace(lexical)) if w.attr['lemma'] not in commonWords(lexical)]
 		if candidates == []:
 			return None
 		random.seed(42)
