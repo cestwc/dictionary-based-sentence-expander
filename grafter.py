@@ -40,15 +40,27 @@ class ExpandedSent:
 		if candidates == []:
 			return None
 		random.seed(42)
-		self.joint = random.choice(candidates)
-		pos = self.joint.attr['pos']
-		syns = wsd(self.rootstock.linear(), '_'.join(self.joint.attr['text'].split()), posAsInNLTK(pos))
+		
+		chances = 20
+		while chances > 0:
+			
+			self.joint = random.choice(candidates)
+			pos = self.joint.attr['pos']
+			syns = wsd(self.rootstock.linear(), '_'.join(self.joint.attr['text'].split()), posAsInNLTK(pos))
+			if syns == []:
+				chances -= 1
+				continue
+			scion = doc2root(tokenized_glosses[syns[0].name()])
+			if scion.attr['pos'] in acceptedRootPOS(pos):
+				break
+			else:
+				syns = []
+				chances -= 1
+
 		if syns == []:
 			return None
+		
 		self.syn = syns[0]
-		scion = doc2root(tokenized_glosses[self.syn.name()])
-		if scion.attr['pos'] not in acceptedRootPOS(pos):
-			return None
 		self.scion = scion
 		self.rootstock = copy.deepcopy(self.rootstock)
 		if pos == 'NOUN':
