@@ -1,3 +1,6 @@
+import spacy
+spacy.prefer_gpu()
+
 def token2node(t, cols, headNode = None):
 	
 	rows = [t.text, t.lemma_, t.pos_, t.tag_, spacy.explain(t.pos_), t.dep_, t.morph.to_dict(), t.is_stop, t.n_lefts, t.n_rights]
