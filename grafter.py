@@ -2,6 +2,8 @@ import copy
 import random
 
 from replicator import doc2root, doc2linear
+from util_lexical import conditionsAvailToReplace, posAsInNLTK, acceptedRootPOS
+from util_common import commonWords
 
 class ExpandedSent:
 	
@@ -16,19 +18,19 @@ class ExpandedSent:
 		self.gemels = None # from the Latin word meaning "a pair"
 
 	# general (with selection on lexical categories)
-	def graft(self, lexical, tokenized_glosses, wnLemmas, conditions, wnPOS, rootPOS, common):
-		candidates = [w for w in self.rootstock.inquire(conditions[lexical]) if w.attr['lemma'] not in common]
+	def graft(self, tokenized_glosses, lexical = None):
+		candidates = [w for w in self.rootstock.inquire(conditions[lexical]) if w.attr['lemma'] not in commonWords(lexical)]
 		if candidates == []:
 			return None
 		random.seed(42)
 		self.joint = random.choice(candidates)
 		pos = self.joint.attr['pos']
-		syn = wsd(self.rootstock.linear(), '_'.join(self.joint.attr['text'].split()), wnPOS[pos])
+		syn = wsd(self.rootstock.linear(), '_'.join(self.joint.attr['text'].split()), posAsInNLTK(pos))
 		if not isSynset(syn):
 			return None
 		self.syn = syn
 		scion = doc2root(tokenized_glosses[self.syn.name()])
-		if scion.attr['pos'] not in rootPOS[pos]:
+		if scion.attr['pos'] not in acceptedRootPOS(pos):
 			return None
 		self.scion = scion
 		self.rootstock = copy.deepcopy(self.rootstock)
@@ -40,7 +42,7 @@ class ExpandedSent:
 			self.gemels = self.joint.adjReplace(self.scion)
 		else:           #ADV
 			self.gemels = self.joint.advReplace(self.scion)
-		self.gemels.phraseRetokenize(wnLemmas)
+		self.gemels.phraseRetokenize()
 		return None
 
 
