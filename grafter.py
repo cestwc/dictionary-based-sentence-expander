@@ -39,7 +39,6 @@ class ExpandedSent:
 		candidates = [w for w in self.rootstock.inquire(conditionsAvailToReplace(lexical)) if w.attr['lemma'] not in commonWords(lexical)]
 		if candidates == []:
 			return None
-		random.seed(42)
 		
 		chances = 20
 		while chances > 0:
