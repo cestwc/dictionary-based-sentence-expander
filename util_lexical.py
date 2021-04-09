@@ -5,10 +5,10 @@ from itertools import chain
 
 def conditionsAvailToReplace(lexical = None):
 	cond = {
-		'NOUN':[[('pos','NOUN'), ('dep','nsubj'), ('nrights', 0)], [('pos','NOUN'), ('dep', 'dobj'), ('nrights', 0)], [('pos','NOUN'), ('dep', 'pobj'), ('nrights', 0)]],
-		'VERB':[[('pos','VERB'), ('dep','ROOT')], [('pos','VERB'), ('dep', 'pcomp')], [('pos','VERB'), ('dep', 'conj')], [('pos','VERB'), ('dep', 'acl')], [('pos','VERB'), ('dep', 'relcl')]],
-		'ADJ':[[('pos','ADJ'), ('dep','amod')], [('pos','ADJ'), ('dep', 'acomp')], [('pos','ADJ'), ('dep', 'pcomp')]],
-		'ADV':[[('pos','ADV'), ('dep','advmod')], [('pos','ADV'), ('dep', 'acomp')], [('pos','ADV'), ('dep', 'pcomp')], [('pos','ADV'), ('dep', 'ccomp')], [('pos','ADV'), ('dep', 'oprd')], [('pos','ADV'), ('dep', 'prt')]]
+    'NOUN':[[('pos','NOUN'), ('dep','nsubj')], [('pos','NOUN'), ('dep', 'dobj')], [('pos','NOUN'), ('dep', 'pobj')]],
+    'VERB':[[('pos','VERB'), ('dep','ROOT')], [('pos','VERB'), ('dep', 'pcomp')], [('pos','VERB'), ('dep', 'conj')], [('pos','VERB'), ('dep', 'acl')], [('pos','VERB'), ('dep', 'relcl')]],
+    'ADJ':[[('pos','ADJ'), ('dep','amod')], [('pos','ADJ'), ('dep', 'acomp')], [('pos','ADJ'), ('dep', 'pcomp')]],
+    'ADV':[[('pos','ADV'), ('dep','advmod')], [('pos','ADV'), ('dep', 'acomp')], [('pos','ADV'), ('dep', 'pcomp')], [('pos','ADV'), ('dep', 'ccomp')], [('pos','ADV'), ('dep', 'oprd')], [('pos','ADV'), ('dep', 'prt')]]
 	}
 	
 	return cond[lexical] if lexical != None else list(chain(*[v for v in cond.values()]))
